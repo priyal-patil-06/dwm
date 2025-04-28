@@ -1,0 +1,149 @@
+SQL> connect
+Enter user-name: system
+Enter password:
+
+Connected.
+
+create user prac identified by 123;
+
+grant dba to prac;
+
+connect 
+prac
+123
+
+### DT ---> Employee
+
+CREATE TABLE Employee (
+    emp_id NUMBER PRIMARY KEY,
+    emp_name VARCHAR2(10),
+    email_id VARCHAR2(20),
+    salary NUMBER,
+    city VARCHAR2(10),
+    state VARCHAR2(15),
+    country VARCHAR2(10)
+);
+
+INSERT INTO Employee VALUES (1, 'Alice', 'alice@example.com', 60000, 'Pune', 'Maharashtra', 'India');
+
+INSERT INTO Employee VALUES (2, 'Bob', 'bob@example.com', 75000, 'Mumbai', 'Maharashtra', 'India');
+
+INSERT INTO Employee VALUES (3, 'Charlie', 'charlie@example.com', 50000, 'Bangalore', 'Karnataka', 'India');
+
+select * from Employee;
+
+### DT ---> Department
+
+CREATE TABLE Department (
+    deptkey NUMBER PRIMARY KEY,
+    name VARCHAR2(8),
+    description VARCHAR2(25),
+    noofemployees NUMBER
+);
+
+INSERT INTO Department VALUES (1, 'HR', 'HUMAN RESOURCES', 10);
+
+INSERT INTO Department VALUES (2, 'IT', 'INFORMATION TECHNOLOGY', 25);
+
+INSERT INTO Department VALUES (3, 'Finance', 'FINANCIAL SERVICES', 8);
+
+SELECT * FROM Department;
+
+### DT ---> Roles
+
+CREATE TABLE Roles (
+    rolekey NUMBER PRIMARY KEY,
+    name VARCHAR2(10),
+    description VARCHAR2(38)
+);
+
+
+INSERT INTO Roles VALUES (1, 'Manager', 'Responsible for managing a team');
+
+INSERT INTO Roles VALUES (2, 'Developer', 'Responsible for software development');
+
+INSERT INTO Roles VALUES (3, 'Analyst', 'Responsible for data analysis');
+
+SELECT * FROM Roles;
+
+### DT ---> Time
+
+CREATE TABLE Time (
+    timeKey NUMBER PRIMARY KEY,
+    day NUMBER,
+    month NUMBER,
+    year NUMBER,
+    joiningdate DATE
+);
+
+INSERT INTO Time VALUES (1, 5, 8, 2022, TO_DATE('2022-08-05', 'YYYY-MM-DD'));
+
+INSERT INTO Time VALUES (2, 12, 9, 2021, TO_DATE('2021-09-12', 'YYYY-MM-DD'));
+
+INSERT INTO Time VALUES (3, 23, 6, 2023, TO_DATE('2023-06-23', 'YYYY-MM-DD'));
+
+SELECT * FROM Time;
+
+### FT ---> E_fact
+
+CREATE TABLE E_Fact (
+    empid NUMBER,
+    deptkey NUMBER,
+    rolekey NUMBER,
+    timekey NUMBER,
+    PRIMARY KEY (empid, deptkey, rolekey, timekey),
+    FOREIGN KEY (empid) REFERENCES Employee(empid),
+    FOREIGN KEY (deptkey) REFERENCES Department(deptkey),
+    FOREIGN KEY (rolekey) REFERENCES Roles(rolekey),
+    FOREIGN KEY (timekey) REFERENCES Time(timekey)
+);
+
+INSERT INTO E_Fact VALUES (1, 2, 1, 1);
+
+INSERT INTO E_Fact VALUES (2, 1, 3, 2);
+
+INSERT INTO E_Fact VALUES (3, 3, 2, 2);
+
+SELECT * FROM E_Fact;
+
+	5 analytical queries to evaluate business performance
+
+1)	GROUP BY: Total Salary by Department
+
+SELECT d.name AS Department, SUM(e.salary) AS Total_Salary 
+FROM Employee e 
+JOIN E_fact f ON e.empid = f.empid 
+JOIN Department d ON f.deptkey = d.deptkey 
+GROUP BY d.name; 
+
+2)	HAVING: Departments with Total Salary Lesser than 100,000
+
+SELECT d.name AS Department, SUM(e.salary) AS Total_Salary  
+FROM Employee e 
+JOIN E_fact f ON e.empid = f.empid 
+JOIN Department d ON f.deptkey = d.deptkey
+GROUP BY d.name 
+HAVING SUM(e.salary) < 100000; 
+
+3)	JOIN (Inner Join): Details of Employees in the IT Department
+
+SELECT e.empname, e.email_id, e.salary, d.name AS Department 
+FROM Employee e 
+JOIN E_fact f ON e.empid = f.empid 
+JOIN Department d ON f.deptkey = d.deptkey 
+WHERE d.name = 'IT'; 
+
+4)	JOIN (Left Join): All Employees with Their Roles (Including Employees Without Assigned Roles)
+
+SELECT e.empname, r.name AS Role 
+FROM Employee e 
+LEFT JOIN E_fact f ON e.empid = f.empid 
+LEFT JOIN Roles r ON f.rolekey = r.rolekey; 
+
+5)	Nested Aggregate Functions: Employee Salary Comparison with Average Salary
+
+SELECT e.empname, e.salary,  
+       (e.salary - (SELECT AVG(salary) FROM Employee)) AS Salary_Diff_From_Avg 
+FROM Employee e 
+JOIN E_fact f ON e.empid = f.empid; 
+ORDER BY Salary_Diff_From_Avg DESC;

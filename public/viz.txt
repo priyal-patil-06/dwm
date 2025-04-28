@@ -1,0 +1,62 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Step 1: Define the path to the CSV file
+csv_file = r"sem 5\dwm_exp8.csv"  # Adjust this path as needed
+
+# Step 2: Load the CSV data into a Pandas DataFrame
+data_df = pd.read_csv(csv_file)
+
+# Step 3: Strip any leading/trailing spaces from column names
+data_df.columns = data_df.columns.str.strip()
+
+# Step 4: Print available columns to verify the structure of the CSV file
+print("Available columns in the CSV file:")
+print(data_df.columns)
+
+# Step 5: Check if required columns exist and raise an error if not found
+required_columns = ['Height', 'Age']
+for column in required_columns:
+    if column not in data_df.columns:
+        raise ValueError(f"Column '{column}' not found in the CSV file.")
+
+# Step 6: Extract the data from the relevant columns for visualization
+hist_column = 'Height'  # Column for the histogram
+x_column = 'Height'  # X-axis for scatter plot
+y_column = 'Age'  # Y-axis for scatter plot
+
+# Extract data for plotting
+hist_data = data_df[hist_column]
+scatter_x = data_df[x_column]
+scatter_y = data_df[y_column]
+
+# Step 7: Create a figure with two subplots
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
+
+# Plot 1: Histogram of the 'Height' column
+ax1.hist(hist_data, bins=30, color='skyblue', edgecolor='black')
+ax1.set_xlabel(hist_column)
+ax1.set_ylabel('Frequency')
+ax1.set_title(f'Histogram of {hist_column}')
+# Plot 2: Scatter plot of 'Height' vs 'Age'
+ax2.scatter(scatter_x, scatter_y, color='orange')
+ax2.set_xlabel(x_column)
+ax2.set_ylabel(y_column)
+ax2.set_title(f'Scatter Plot of {x_column} vs {y_column}')
+# Step 8: Adjust layout and show the plot
+plt.tight_layout()
+plt.show()
+
+
+
+.csv file
+
+Height,Age
+145,22
+150,24
+155,26
+160,30
+165,32
+170,34
+175,28
+180,40

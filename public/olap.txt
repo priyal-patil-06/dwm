@@ -1,0 +1,198 @@
+SQL> connect
+Enter user-name: system
+Enter password:
+
+Connected.
+
+create user prac identified by 123;
+
+grant dba to prac;
+
+connect 
+prac
+123
+
+### DT ---> Doctor
+
+CREATE TABLE DOCTOR (
+    DOCTOR_ID NUMBER PRIMARY KEY,
+    DOCTOR_NAME VARCHAR2(20),
+    SPECIALTY VARCHAR2(20),
+    GENDER VARCHAR2(8),
+    EXPERIENCE NUMBER
+);
+
+INSERT INTO DOCTOR (DOCTOR_ID, DOCTOR_NAME, SPECIALTY, GENDER, EXPERIENCE) 
+VALUES (1, 'ALBIS', 'CARDIOLOGY', 'MALE', 40);
+
+INSERT INTO DOCTOR (DOCTOR_ID, DOCTOR_NAME, SPECIALTY, GENDER, EXPERIENCE) 
+VALUES (2, 'SEVERUS', 'NEUROLOGY', 'MALE', 35);
+
+INSERT INTO DOCTOR (DOCTOR_ID, DOCTOR_NAME, SPECIALTY, GENDER, EXPERIENCE) 
+VALUES (3, 'MENERVA', 'PEDIATRICS', 'FEMALE', 45);
+
+INSERT INTO DOCTOR (DOCTOR_ID, DOCTOR_NAME, SPECIALTY, GENDER, EXPERIENCE) 
+VALUES (4, 'PUMONA', 'DERMATOLOGY', 'FEMALE', 30);
+
+INSERT INTO DOCTOR (DOCTOR_ID, DOCTOR_NAME, SPECIALTY, GENDER, EXPERIENCE) 
+VALUES (5, 'REMUS', 'GENERAL MEDICINE', 'MALE', 25);
+
+SELECT * FROM DOCTOR;
+
+
+### DT ---> Patient
+
+CREATE TABLE patient (
+    patient_id NUMBER PRIMARY KEY,
+    patient_name VARCHAR2(20),
+    age NUMBER,
+    gender VARCHAR2(8),
+    medical_history VARCHAR2(15)
+);
+
+INSERT INTO patient 
+VALUES (1, 'Harry', 20, 'male', 'none');
+
+INSERT INTO patient 
+VALUES (2, 'Hermione', 21, 'female', 'asthma');
+
+INSERT INTO patient 
+VALUES (3, 'Ron', 22, 'male', 'diabetes');
+
+INSERT INTO patient 
+VALUES (4, 'Luna', 20, 'female', 'none');
+
+INSERT INTO patient 
+VALUES (5, 'Neville', 21, 'male', 'allergies');
+
+SELECT * FROM patient;
+
+### DT ---> Medical Records
+
+CREATE TABLE MEDICAL_RECORDS (
+    MEDICAL_RECORD_ID NUMBER PRIMARY KEY,
+    DIAGNOSIS VARCHAR2(18),
+    TREATMENT VARCHAR2(15),
+    MEDICATION VARCHAR2(18),
+    PATIENT_ID NUMBER,
+    DOCTOR_ID NUMBER,
+    FOREIGN KEY (PATIENT_ID) REFERENCES PATIENT (PATIENT_ID),
+    FOREIGN KEY (DOCTOR_ID) REFERENCES DOCTOR (DOCTOR_ID)
+);
+
+INSERT INTO MEDICAL_RECORDS 
+VALUES (1, 'HEADACHE', 'REST', 'PARACETAMOL', 1, 1);
+
+INSERT INTO MEDICAL_RECORDS 
+VALUES (2, 'MIGRAINE', 'MEDICATION', 'IBUPROFENE', 2, 2);
+
+INSERT INTO MEDICAL_RECORDS 
+VALUES (3, 'FLU', 'MEDICATION', 'TAMIFLU', 3, 3);
+
+INSERT INTO MEDICAL_RECORDS 
+VALUES (4, 'SKIN RASH', 'CREAM', 'HYDROCORTISONE', 4, 4);
+
+INSERT INTO MEDICAL_RECORDS 
+VALUES (5, 'GENERAL CHECKUP', 'NONE', 'NONE', 5, 5);
+
+SELECT * FROM MEDICAL_RECORDS;
+
+
+### DT ---> Admin
+
+CREATE TABLE Admin (
+    Admin_ID NUMBER PRIMARY KEY,
+    Admin_Name VARCHAR2(20),
+    Role VARCHAR2(15),
+    Gender VARCHAR2(8),
+    Department VARCHAR2(24)
+);
+
+INSERT INTO Admin 
+VALUES (1, 'Sirius', 'Administrator', 'Male', 'General Administration');
+
+INSERT INTO Admin 
+VALUES (2, 'Bellatrix', 'Billing', 'Female', 'Finance');
+
+INSERT INTO Admin 
+VALUES (3, 'Peter', 'HR', 'Male', 'Human Resources');
+
+INSERT INTO Admin 
+VALUES (4, 'Dollaris', 'Receptionist', 'Female', 'Front Desk');
+
+INSERT INTO Admin 
+VALUES (5, 'Lucius', 'Security', 'Male', 'Security');
+
+SELECT * FROM Admin;
+
+
+### FT ---> HospitalVisits
+
+CREATE TABLE HospitalVisits (
+    VISIT_ID NUMBER PRIMARY KEY,
+    DOCTOR_ID NUMBER,
+    PATIENT_ID NUMBER,
+    MEDICAL_RECORD_ID NUMBER,
+    ADMIN_ID NUMBER,
+    VISIT_DATE DATE,
+    DURATION NUMBER,
+    COST NUMBER,
+    FOREIGN KEY (DOCTOR_ID) REFERENCES DOCTOR (DOCTOR_ID),
+    FOREIGN KEY (PATIENT_ID) REFERENCES PATIENT (PATIENT_ID),
+    FOREIGN KEY (MEDICAL_RECORD_ID) REFERENCES MEDICAL_RECORDS (MEDICAL_RECORD_ID),
+    FOREIGN KEY (ADMIN_ID) REFERENCES Admin (Admin_ID)
+);
+
+INSERT INTO HospitalVisits 
+VALUES (1, 1, 1, 1, 1, TO_DATE('2025-04-25', 'YYYY-MM-DD'), 30, 150);
+
+INSERT INTO HospitalVisits 
+VALUES (2, 2, 2, 2, 2, TO_DATE('2025-04-26', 'YYYY-MM-DD'), 45, 200);
+
+INSERT INTO HospitalVisits 
+VALUES (3, 3, 3, 3, 3, TO_DATE('2025-04-27', 'YYYY-MM-DD'), 60, 250);
+
+INSERT INTO HospitalVisits 
+VALUES (4, 4, 4, 4, 4, TO_DATE('2025-04-28', 'YYYY-MM-DD'), 40, 180);
+
+INSERT INTO HospitalVisits 
+VALUES (5, 5, 5, 5, 5, TO_DATE('2025-04-29', 'YYYY-MM-DD'), 25, 120);
+
+SELECT * FROM HospitalVisits;
+
+Q U E R I E S:
+
+1. How many hospital visits were recorded in the fact table?
+
+SELECT COUNT(*) AS Total_Visits
+FROM HospitalVisits;
+
+2. What is the total cost of all visits recorded in the fact table?
+
+SELECT SUM(COST) AS Total_Cost
+FROM HospitalVisits;
+
+3. How many unique patients visited the hospital?
+
+SELECT COUNT(DISTINCT PATIENT_ID) AS Unique_Patients
+FROM HospitalVisits;
+
+4. List all the doctors along with their specialties.
+
+SELECT DOCTOR_NAME, SPECIALTY
+FROM DOCTOR;
+
+5. What is the average duration of hospital visits?
+
+SELECT AVG(DURATION) AS Average_Duration
+FROM HospitalVisits;
+
+6. Show the total cost of visits for each doctor’s specialty, with a grand total for all specialties combined.
+
+SELECT D.SPECIALTY, SUM(HV.COST) AS Total_Cost
+FROM HospitalVisits HV
+JOIN DOCTOR D ON HV.DOCTOR_ID = D.DOCTOR_ID
+GROUP BY D.SPECIALTY
+UNION ALL
+SELECT 'Grand Total', SUM(HV.COST)
+FROM HospitalVisits HV;

@@ -1,0 +1,48 @@
+import numpy as np
+
+# Define a 9-element input array
+data = np.array([11, 2, 13, 4, 25, 26, 7, 18, 9])
+
+# Print the input array
+print("Input Array: \n", data)
+
+# Sort the array
+sorted_data = np.sort(data)
+print("\nSorted Array: \n", sorted_data)
+
+# Number of elements in each bin
+bin_size = 3
+num_bins = len(sorted_data) // bin_size
+
+# Create bins
+bin1 = np.zeros((num_bins, bin_size))  # Bin mean
+bin2 = np.zeros((num_bins, bin_size))  # Bin boundaries
+bin3 = np.zeros((num_bins, bin_size))  # Bin median
+
+# Print initial bins (subarrays)
+print("\nInitial Bins (Subarrays):")
+for i in range(0, len(sorted_data), bin_size):
+    bin_data = sorted_data[i:i + bin_size]
+    print(f"Bin {i // bin_size + 1}: {bin_data}")
+
+# Bin mean
+for i in range(0, len(sorted_data), bin_size):
+    k = i // bin_size
+    mean = np.mean(sorted_data[i:i + bin_size])
+    bin1[k, :] = mean
+print("\nBin Mean: \n", bin1)
+
+# Bin boundaries
+for i in range(0, len(sorted_data), bin_size):
+    k = i // bin_size
+    min_value = sorted_data[i]
+    max_value = sorted_data[i + bin_size - 1]
+    bin2[k, :] = [min_value] * (bin_size // 2) + [max_value] * (bin_size - bin_size // 2)
+print("\nBin Boundaries: \n", bin2)
+
+# Bin median
+for i in range(0, len(sorted_data), bin_size):
+    k = i // bin_size
+    median = np.median(sorted_data[i:i + bin_size])
+    bin3[k, :] = median
+print("\nBin Median: \n", bin3)
