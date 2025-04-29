@@ -1,0 +1,146 @@
+Partial Order Planning for block world problem
+_______________________________________________
+
+def apply_operator(state, operator):
+    if operator['preconditions'].issubset(state):
+        new_state = (state - operator['del_effects']) | operator['add_effects']
+        return new_state, True
+    else:
+        return state, False
+
+def normalize_state(state):
+    normalized = set()
+    for item in state:
+        item = item.strip().replace("table", "Table").replace("  ", " ").replace(" ,", ",").replace(", ", ",")
+        normalized.add(item)
+    return normalized
+
+def parse_input(input_str):
+    input_str = input_str.replace(" ", "")  # Remove all spaces
+    predicates = set()
+    i = 0
+    while i < len(input_str):
+        if input_str[i].isalpha():
+            # Start of predicate
+            j = i
+            while j < len(input_str) and input_str[j] != ')':
+                j += 1
+            if j < len(input_str):
+                predicates.add(input_str[i:j+1])
+                i = j + 1
+            else:
+                break
+        else:
+            i += 1
+    return predicates
+
+
+def plan_steps(init_state, goal_state, operators):
+    current_state = normalize_state(init_state)
+    goal_state = normalize_state(goal_state)
+    plan = []
+
+    print("\nInitial State:", current_state)
+    print("Goal State:", goal_state)
+
+    current_state.add('Clear(Table)')
+
+    def bfs_plan():
+        queue = [(current_state, [])]
+        visited = set()
+        visited.add(frozenset(current_state))
+
+        while queue:
+            state, path = queue.pop(0)
+            if goal_state.issubset(state):
+                return path
+
+            for op in operators:
+                if op['preconditions'].issubset(state):
+                    new_state, _ = apply_operator(state, op)
+                    new_state_frozen = frozenset(new_state)
+                    if new_state_frozen not in visited:
+                        visited.add(new_state_frozen)
+                        queue.append((new_state, path + [op['name']]))
+        return None
+
+    plan = bfs_plan()
+
+    if plan:
+        print("\nPlan found successfully!")
+        temp_state = current_state.copy()
+        for step in plan:
+            print(f"\nApplying: {step}")
+            op = next(op for op in operators if op['name'] == step)
+            temp_state, _ = apply_operator(temp_state, op)
+            print(f"New State: {temp_state}")
+        print("\nFinal Plan (after threat resolution):", plan)
+        print("Success! All goals achieved.")
+    else:
+        print("Cannot find a plan to achieve the goal state.")
+        print("Final Plan (after threat resolution): []")
+        print("Warning: No goals achieved.")
+
+    return plan or []
+
+def create_operators():
+    blocks = ['A', 'B', 'C']
+    surfaces = blocks + ['Table']
+    operators = []
+
+    for block in blocks:
+        for source in surfaces:
+            if block == source:
+                continue
+            for dest in surfaces:
+                if block == dest or source == dest:
+                    continue
+                name = f'Move({block}, {source}, {dest})'
+                preconditions = {f'On({block},{source})', f'Clear({block})', f'Clear({dest})'}
+                add_effects = {f'On({block},{dest})', f'Clear({source})'}
+                del_effects = {f'On({block},{source})', f'Clear({dest})'}
+                if dest == 'Table':
+                    preconditions.discard('Clear(Table)')
+                if source == 'Table':
+                    add_effects.discard('Clear(Table)')
+                operators.append({
+                    'name': name,
+                    'preconditions': preconditions,
+                    'add_effects': add_effects,
+                    'del_effects': del_effects
+                })
+    return operators
+
+# === Main ===
+init_state_input = input("Enter initial state: ")
+goal_state_input = input("Enter goal state: ")
+
+init_state = parse_input(init_state_input)
+goal_state = parse_input(goal_state_input)
+
+operators = create_operators()
+final_plan = plan_steps(init_state, goal_state, operators)
+
+
+OUTPUT:
+_________________________________________
+
+Enter initial state: On(B, Table), On(A, Table), On (C,A), Clear (B), Clear (C)
+Enter goal state: On(C, Table), On (B,C), On (A,B), Clear (A)
+
+Initial State: {'Clear(B)', 'On(B,Table)', 'Clear(C)', 'On(C,A)', 'On(A,Table)'}
+Goal State: {'On(B,C)', 'Clear(A)', 'On(A,B)', 'On(C,Table)'}
+
+Plan found successfully!
+
+Applying: Move(C, A, Table)
+New State: {'On(B,Table)', 'Clear(C)', 'Clear(A)', 'Clear(B)', 'On(A,Table)', 'On(C,Table)'}
+
+Applying: Move(B, Table, C)
+New State: {'On(B,C)', 'Clear(A)', 'Clear(B)', 'On(A,Table)', 'On(C,Table)'}
+
+Applying: Move(A, Table, B)
+New State: {'On(B,C)', 'Clear(A)', 'On(A,B)', 'On(C,Table)'}
+
+Final Plan (after threat resolution): ['Move(C, A, Table)', 'Move(B, Table, C)', 'Move(A, Table, B)']
+Success! All goals achieved.

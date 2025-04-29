@@ -1,0 +1,140 @@
+GNU PROLOG 
+____________________________________
+
+[Save as prac.pl in C:\GNU-Prolog\my_programs]
+
+% Facts
+male(sam).
+male(akaay).
+male(pam).
+male(agastya).
+male(tam).
+male(virat).
+male(rohit).
+male(hardik).
+male(omy).
+
+female(samaira).
+female(vamika).
+female(anushka).
+female(ritika).
+female(natasha).
+
+% Parent Facts
+parent(akaay, sam). 
+parent(samaira, sam). 
+parent(akaay, omy). 
+parent(samaira, omy). 
+parent(akaay, pam). 
+parent(samaira, pam). 
+parent(agastya, tam). 
+parent(vamika, tam).  
+
+parent(virat, akaay). 
+parent(anushka, akaay). 
+parent(virat, vamika). 
+parent(anushka, vamika). 
+parent(rohit, samaira). 
+parent(ritika, samaira). 
+
+parent(hardik, agastya). 
+parent(natasha, agastya). 
+
+% Rules
+father(X, Y) :- parent(X, Y), male(X).
+mother(X, Y) :- parent(X, Y), female(X).
+siblings(X, Y) :- parent(Z, X), parent(Z, Y), X \= Y.
+uncle(X, Y) :- parent(Z, Y), siblings(Z, X), male(X).
+aunt(X, Y) :- parent(Z, Y), siblings(Z, X), female(X).
+cousins(X, Y) :- parent(Z, X), parent(W, Y), siblings(Z, W).
+grandparent(X, Y) :- parent(X, Z), parent(Z, Y).
+grandfather(X, Y) :- father(X, Z), parent(Z, Y).
+grandmother(X, Y) :- mother(X, Z), parent(Z, Y).
+
+% AI Experiment Predicate
+prac :- 
+    write('AI Prac is running...'), nl.
+
+% Remove duplicate siblings using "setof"
+siblings_unique(X, Y) :-
+    setof(S, siblings(S, Y), SiblingList), % Get unique siblings
+    member(X, SiblingList). % Select one sibling at a time
+
+___________________________________________________
+Open GNU - prolog
+
+| ?- change_directory('C:/GNU-Prolog/my_programs').
+
+yes
+| ?- consult('prac.pl').
+compiling C:/GNU-Prolog/my_programs/prac.pl for byte code...
+C:/GNU-Prolog/my_programs/prac.pl compiled, 56 lines read - 6371 bytes written, 21 ms
+
+yes
+| ?- prac.
+AI Prac is running...
+
+(15 ms) yes
+
+| ?- father(X, sam).
+X = akaay ? 
+(15 ms) yes
+
+| ?- mother(X, tam).
+X = vamika ? 
+yes
+
+| ?- siblings(X, pam).
+X = sam ? 
+yes
+
+| ?- grandfather(X, sam).
+X = virat ? 
+(16 ms) yes
+
+| ?- aunt(X, sam).
+X = vamika ? 
+yes
+
+| ?- cousins(X, tam).
+X = sam ? 
+yes
+
+| ?- parent(X, agastya).
+X = hardik ? 
+yes
+
+| ?- parent(X, agastya).
+X = hardik ? ;
+X = natasha
+yes
+
+| ?- cousins(X, tam).
+X = sam ? ;
+X = sam ? ;
+X = omy ? 
+yes
+
+| ?- grandmother(X, pam).
+X = anushka ? ;
+X = ritika ? ;
+no
+
+| ?- uncle(X, tam).
+X = akaay ? ;
+X = akaay ? 
+yes
+
+| ?- aunt(X, sam).
+X = vamika ? ;
+X = vamika ? 
+yes
+
+| ?- siblings(X, pam).
+X = sam ? 
+yes
+
+| ?- siblings_unique(X, pam).
+X = sam
+yes
+
