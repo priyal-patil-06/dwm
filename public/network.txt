@@ -1,0 +1,20 @@
+
+
+Network Topology using Cisco Packet Tracer
+
+IMPLEMENTATION:
+
+Steps:
+1.	Pick a total of 4 pcs in the packet tracer application.
+2.	We need 2 routers.
+3.	We need a single switch.
+4.	Give the appropriate IP addresses to the PCs accordingly.
+5.	Test the network with the help of packets.
+
+The experiment conducted in Cisco Packet Tracer involved designing,
+configuring, and testing various network topologies, including a 2-switch
+network connected via routers, a 2-router network, and a multi-PC network
+connected via a switch/hub. The goal was to explore different aspects of
+network connectivity, routing, VLANs, and basic IP addressing.
+These skills are essential for designing and managing real-world networks,
+ensuring reliable and efficient communication within and between networked systems.
