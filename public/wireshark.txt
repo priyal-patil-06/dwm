@@ -1,0 +1,131 @@
+
+How to Download and Install Wireshark:
+
+•	Wireshark can be downloaded at no cost from the Wireshark Foundation website - https://www.wireshark.org/download.html
+•	During the Windows setup process, choose to install WinPcap or Npcap
+if prompted as these include libraries required for live data capture.
+•	You must be logged in to the device as an administrator to use Wireshark.
+In Windows 10, search for Wireshark and select Run as administrator.
+•	Then Wireshark is ready for use.
+
+
+
+What Is Wireshark?
+ 
+Wireshark is a widely used open-source network protocol analyzer.
+It allows users to capture and inspect the data packets flowing over a
+network in real-time or from a stored capture file. Wireshark is a valuable tool
+for network administrators, security professionals, and developers to analyze network traffic,
+troubleshoot network issues, and perform various network-related tasks.
+
+Following are the features provided by Wireshark:
+
+1. Packet Capture: Wireshark can capture data packets from various network interfaces,
+such as Ethernet, Wi-Fi, and others. It captures packets as they traverse
+the network, providing a detailed view of the traffic.
+
+2. Packet Filtering: Users can apply filters to focus on specific types
+of traffic or packets, helping them isolate and analyze the relevant data efficiently.
+
+3. Colorized Packet Display: It uses colour coding to highlight different
+types of packets, making it easier to identify anomalies or issues in network traffic.
+
+4. Packet Inspection: Wireshark provides detailed information about each packet,
+including source and destination addresses, port numbers, protocol headers,
+and the payload data. This information is crucial for diagnosing network problems
+and understanding network behaviour.
+
+5. Protocol Analysis: It dissects and decodes network protocols,
+making it possible to inspect the contents of each packet. 
+Wireshark can handle a wide range of protocols,
+from common ones like HTTP and TCP/IP to more specialized protocols.
+
+6. Real-Time Monitoring: Wireshark allows users to monitor network
+traffic in real-time, making it useful for troubleshooting network issues, 
+diagnosing problems, and analyzing ongoing network activities.
+
+
+Basic functionalities of Wireshark:
+
+1. Capturing Packets:
+__________________________________________________
+ 
+To begin capturing packets with Wireshark, we need to select one or more of the networks,
+go to the menu bar, then select Capture and then select Start. 
+
+It will start capturing once we have clicked start.
+
+To stop capturing, go to the Wireshark toolbar and select the red Stop button
+that's located next to the shark fin.
+
+The captured data interface contains three main sections:
+● The packet list pane (the top section)
+ 
+● The packet details pane (the middle section)
+
+● The packet bytes pane (the bottom section)
+ 
+Packet List:
+The packet list pane, located at the top of the window, shows all packets found in the active capture file. Each packet has its own row and corresponding number assigned to it. To change the time format to something more useful (such as the actual time of day), select View > Time Display Format.
+ 
+After changing Time Display Format-
+ 
+Packet Details:
+The details pane, found in the middle, presents the protocols and protocol fields of the selected packet in a collapsible format. In addition to expanding each selection, you can apply individual Wireshark filters based on specific details and follow streams of data based on protocol type by right-clicking the desired item.
+
+
+Packet Bytes:
+At the bottom is the packet bytes pane, which displays the raw data of the selected packet in a hexadecimal view. This hex dump contains 16 hexadecimal bytes and 16 ASCII bytes alongside the data offset. Selecting a specific portion of this data automatically highlights its corresponding section in the packet details pane and vice versa. Any bytes that cannot be printed are represented by a period.
+
+To display this data in bit format as opposed to hexadecimal, right-click anywhere within the pane and select as bits.
+ 
+After changing as bits -
+
+
+
+2.	Filtering Packets:
+____________________________________________________________
+Capture filters instruct Wireshark to only record packets that meet specified criteria. Filters can also be applied to a capture file that has been created so that only certain packets are shown. Enter a capture filter field located in the centre of the welcome screen. For example, if you want to display ARP packets, type arp.
+ 
+
+
+3.	Colouring Packets:
+_____________________________________________________________
+While Wireshark's capture and display filters limit which packets are recorded or shown on the screen, its colorization function takes things a step further: It can distinguish between different packet types based on their individual hue. This quickly locates certain packets within a saved set by their row colour in the packet list pane.
+Wireshark comes with about 20 default colouring rules, each can be edited, disabled, or deleted. Select View > Colouring Rules for an overview of what each colour means. You can also add your own colour-based filters.
+ 
+
+After Colorizing:
+ 
+
+
+4.	Inspecting Packets:
+______________________________________________________________
+Click a packet to select it and you can dig down to view its details. You can also create filters from here — just right-click one of the details and use the Apply as Filter submenu to create a filter based on it
+
+After Inspecting -
+ 
+
+5.	Analyzing Packets:
+_________________________________________________________________
+
+There are many ways to filter and analyze packets.
+A drop-down menu appears if you click analyze on the menu bar.
+
+a) Follow: To right-click a packet and select Follow > UDP Stream. By doing so, one can see the UDP conversation between the client and the server. Also, by clicking other protocols in the Follow menu, other protocols' full conversions can be seen if applicable.
+Close the window and you’ll find a filter has been applied automatically. Wireshark is showing you the packets that make up the conversation.
+
+b) Display Filter
+
+c) Conversation Filter
+
+
+6.	Statistics in Wireshark:
+____________________________________________________________________
+Other useful metrics are available through the Statistics drop-down menu. These include size and timing information about the capture file, along with dozens of charts and graphs ranging in topic from packet conversation breakdowns to load distribution of HTTP requests.
+
+a) Packet Length: It simply displays the characteristics of different packets lengths determined in the network.
+ 
+b) I/O Graph: It is the term used to display the graph of the captured packets. Also, filters can be applied during this process.
+ 
+
