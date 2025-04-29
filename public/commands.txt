@@ -1,0 +1,89 @@
+Networking devices play a crucial role in modern communication by facilitating data exchange and connectivity within and between networks. These devices vary in complexity and function, ranging from simple cables to sophisticated routers and switches. Understanding these devices is essential for anyone involved in networking, IT, or computer engineering. This case study will explore seven key networking devices: Network Interface Card (NIC), cables and their types, switches, routers, hubs, repeaters, and bridges.
+
+1. Network Interface Card (NIC)
+ 
+A Network Interface Card (NIC) is a hardware component that allows computers to connect to a network. It provides the physical interface for network communication and is responsible for converting data into a format suitable for transmission over the network.
+
+•	Functionality: NICs handle both wired and wireless communication and can support different types of network protocols like Ethernet, Wi-Fi, etc.
+•	Types: Integrated NICs (built into the motherboard) and External NICs (connected via USB or other expansion slots).
+•	Key Features: MAC address assignment, data link layer functionality, and support for different data transfer speeds (10/100/1000 Mbps).
+
+
+2. Cables and Types
+Cables are physical transmission mediums that connect networking devices and enable data transfer.
+
+•	Twisted Pair Cables: Commonly used in Ethernet networks, they come in two types: Unshielded Twisted Pair (UTP) and Shielded Twisted Pair (STP).
+•	Coaxial Cables: Used in cable television and early Ethernet networks, they have a single conductor wire surrounded by insulation, shielding, and an outer jacket.
+•	Fiber Optic Cables: Use light to transmit data, providing high speed and long-distance communication. Types include Single-mode (SMF) and Multi-mode (MMF) fibers.
+•	Key Features: Data transmission speed, distance, susceptibility to interference, and cost.
+
+
+3. Switch
+   
+A switch is a networking device that connects multiple devices within a LAN (Local Area Network) and uses MAC addresses to forward data to the correct destination.
+
+•	Functionality: Operates at the data link layer (Layer 2) of the OSI model, some switches also support Layer 3 functionality.
+•	Types: Managed switches (configurable, provide network management features) and Unmanaged switches (plug-and-play, with no configuration options).
+•	Key Features: Port density, VLAN support, link aggregation, and Quality of Service (QoS) capabilities.
+
+
+
+4. Router
+ 
+A router is a device that forwards data packets between computer networks, directing traffic on the Internet.
+
+•	Functionality: Operates at the network layer (Layer 3) of the OSI model, routing packets based on IP addresses.
+•	Types: Home routers (provide connectivity for home networks) and Enterprise routers (offer advanced features for large networks).
+•	Key Features: NAT (Network Address Translation), DHCP (Dynamic Host Configuration Protocol), VPN (Virtual Private Network) support, and firewall capabilities.
+
+
+5. Hub
+ 
+A hub is a basic networking device that connects multiple Ethernet devices, making them act as a single network segment.
+
+•	Functionality: Operates at the physical layer (Layer 1) of the OSI model, broadcasting incoming data to all ports.
+•	Types: Active hubs (require power, regenerate signals) and Passive hubs (do not require power, simply split signals).
+•	Key Features: Simple connectivity, no data filtering, and limited bandwidth efficiency.
+
+
+6. Repeater
+ 
+A repeater is a device that regenerates and amplifies signals to extend the distance over which data can be transmitted.
+
+•	Functionality: Operates at the physical layer (Layer 1) of the OSI model, receiving and retransmitting signals.
+•	Types: Wired repeaters (used in Ethernet networks) and Wireless repeaters (used in Wi-Fi networks).
+•	Key Features: Signal amplification, extended transmission distance, and reduction of signal degradation.
+
+
+7. Bridge
+ 
+A bridge is a device that connects two or more network segments, improving network efficiency by dividing traffic.
+
+•	Functionality: Operates at the data link layer (Layer 2) of the OSI model, filtering traffic and reducing collisions.
+•	Types: Simple bridges (connect two segments) and Multiport bridges (connect more than two segments, similar to switches).
+•	Key Features: Traffic filtering, collision domain segmentation, and MAC address learning.
+
+
+
+C O M M A N D S :
+
+ipconfig /all:
+➔ Displays detailed network configuration information for all adapters, including IP, MAC, DHCP, and DNS settings.
+
+nslookup www.sfit.ac.in:
+➔ Queries the DNS to find the IP address associated with the domain www.sfit.ac.in.
+
+ping www.google.com:
+➔ Tests network connectivity to www.google.com by sending ICMP echo requests and measuring the response time.
+
+tracert www.google.com:
+➔ Traces the route (hops) taken by packets to reach www.google.com, showing each intermediate router.
+
+arp -a:
+➔ Displays the ARP (Address Resolution Protocol) table that maps IP addresses to MAC addresses on the local network.
+
+hostname:
+➔ Shows the name of the computer (its hostname) on the network.
+
+route print:
+➔ Displays the current routing table, showing how network traffic is directed through gateways and interfaces.
