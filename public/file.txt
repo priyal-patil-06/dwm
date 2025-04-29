@@ -1,0 +1,18 @@
+IMPLEMNATATION:
+
+Step 1: Create three folders (I have named them Shared_folder, CN and User2) and create a file in any one of the folders (folder-CN). The Shared_folder folder acts as the server. 
+
+Step 2: Open the Administrative Interface of the FileZilla Server. Go to Servers Configure and create new users. (Created two users named priyal and user2).
+
+Step 3: After creating the users make sure that the ‘User is enabled’ option is checked.  Add the path of the server’s folder. (In this case the path of the folder-Shared_folder).
+
+Step 4: Open Command Prompt and change the directory to the location of the folder ‘Shared_folder’. After that, write the command ‘ftp 127.0.0.1’. After that, enter the username and password of the user created in FileZilla (‘priyal’). Now the ftp server is switched on. PUT command is used for adding files. 
+
+Step 5: Now, we go to the location of the client folder (another user [in this case, User2]) and give the command ‘ftp 127.0.0.1’. Now here, we use the command GET which is used to retrieve files from the server. 
+
+The file is successfully downloaded from the server. You can check it in the client folder (folder- User2).
+
+The FileZilla Interface shows that the commands were successfully executed and the sessions have gracefully terminated. 
+__________________________________________
+CONCLUSION: 
+FileZilla is a reliable and user-friendly FTP (File Transfer Protocol) client that offers several advantages, such as ease of use, cross-platform compatibility, and a range of features for managing file transfers. However, it also has some disadvantages, including potential security risks if not configured properly and occasional connection issues. Despite its drawbacks, FileZilla remains a popular choice for transferring files securely and efficiently.
