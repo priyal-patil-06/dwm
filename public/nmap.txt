@@ -1,0 +1,43 @@
+Network Discovery Tools : Zenmap
+
+______________________Nmap features include: _______________________
+
+• Host Discovery – Identifying hosts on a network. For eg., 
+listing the hosts which respond to  pings or have a particular port open.
+ 
+• Port Scanning – Enumerating the open ports on one or more target hosts. 
+
+• Version Detection – Interrogating listening network services listening on
+remote devices to determine  the application name and version number. 
+
+• OS Detection – Remotely determining the operating system and some 
+hardware characteristics of  network devices. 
+
+______________Algorithm\Implementation Steps\Installation Steps: __________________
+
+1. Download Nmap from www.nmap.org and install the Nmap Software with WinPcap Driver utility. 
+2. Execute the Nmap-Zenmap GUI tool from Program Menu or Desktop Icon 
+3. Type the Target Machine IP Address (ie.Guest OS or any website Address) 
+4. Perform the profiles shown in the utility.
+
+____________Types of Scans____________
+
+Ping Scan:
+➔ Checks if a host is online by sending ICMP echo requests
+(basic network reachability test).
+
+Intense Scan:
+➔ Performs a deep scan with service/version detection,
+OS detection, script scanning, and traceroute.
+
+Regular Scan:
+➔ A basic scan that checks open ports on a target without
+extra detailed probing.
+
+Quick Scan:
+➔ Rapidly scans only the most common ports without doing
+full service or OS detection.
+
+Aggressive Scan:
+➔ Conducts a very detailed scan with faster timing,
+service detection, OS fingerprinting, and default script execution.
